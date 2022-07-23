@@ -1,13 +1,11 @@
 import logo from "./logo.svg";
 import "./App.css";
+import NavbarComponent from "./components/NavbarComponent";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Fanny Love Bayu</p>
-      </header>
+      <NavbarComponent />
     </div>
   );
 }
