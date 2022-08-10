@@ -157,7 +157,8 @@ export default class Home extends Component {
                   ))}
               </Row>
             </Col>
-            <Hasil keranjangs={keranjangs} />
+            {/* kirim semuanya dengan(....) */}
+            <Hasil keranjangs={keranjangs} {...this.props} />
           </Row>
         </Container>
       </div>
