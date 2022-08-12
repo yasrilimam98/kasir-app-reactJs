@@ -1,9 +1,62 @@
 import React, { Component } from "react";
 import { Badge, Col, ListGroup, Row } from "react-bootstrap";
 import { numberWithCommas } from "../utils/utils";
+import ModalKeranjang from "./ModalKeranjang";
 import TotalBayar from "./TotalBayar";
 
 export default class Hasil extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      showModal: false,
+      keranjangDetail: false,
+      jumlah: 0,
+      keterangan: "",
+    };
+  }
+
+  handleShow = (menuKeranjang) => {
+    this.setState({
+      showModal: true,
+      keranjangDetail: menuKeranjang,
+      jumlah: menuKeranjang.jumlah,
+      keterangan: menuKeranjang.keterangan,
+    });
+  };
+
+  handleClose = () => {
+    this.setState({
+      showModal: false,
+    });
+  };
+
+  tambah = () => {
+    this.setState({
+      jumlah: this.state.jumlah + 1,
+    });
+  };
+
+  kurang = () => {
+    // min 1 jadi ga boleh di buat minus
+    if (this.state.jumlah !== 1) {
+      this.setState({
+        jumlah: this.state.jumlah - 1,
+      });
+    }
+  };
+
+  changeHandler = (event) => {
+    this.setState({
+      keterangan: event.target.value,
+    });
+  };
+
+  handleSubmit = (event) => {
+    // cegah reload
+    event.preventDefault();
+  };
+
   render() {
     // ambil keranjang dari state di ubah ke props
     const { keranjangs } = this.props;
@@ -17,7 +70,10 @@ export default class Hasil extends Component {
         {keranjangs.length !== 0 && (
           <ListGroup variant="flush">
             {keranjangs.map((menuKeranjang) => (
-              <ListGroup.Item key={menuKeranjang.id}>
+              <ListGroup.Item
+                key={menuKeranjang.id}
+                onClick={() => this.handleShow(menuKeranjang)}
+              >
                 <Row>
                   <Col xs={2}>
                     <h4>
@@ -38,6 +94,15 @@ export default class Hasil extends Component {
                 </Row>
               </ListGroup.Item>
             ))}
+            {/* passing to modal state (...) artinya kirim semua state */}
+            <ModalKeranjang
+              handleClose={this.handleClose}
+              {...this.state}
+              tambah={this.tambah}
+              kurang={this.kurang}
+              changeHandler={this.changeHandler}
+              handleSubmit={this.handleSubmit}
+            />
           </ListGroup>
         )}
         <TotalBayar keranjangs={keranjangs} {...this.props} />
