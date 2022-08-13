@@ -14,6 +14,8 @@ const ModalKeranjang = ({
   kurang,
   changeHandler,
   handleSubmit,
+  totalHarga,
+  hapusPesanan,
 }) => {
   // Buat kondisi jika ada dan tidak ada
   if (keranjangDetail) {
@@ -32,9 +34,7 @@ const ModalKeranjang = ({
             <Form.Group controlId="exampleForm.ControlInput1">
               <Form.Label>Total Harga : </Form.Label>
               <p>
-                <strong>
-                  Rp. {numberWithCommas(keranjangDetail.total_harga)}
-                </strong>
+                <strong>Rp. {numberWithCommas(totalHarga)}</strong>
               </p>
             </Form.Group>
 
@@ -45,18 +45,18 @@ const ModalKeranjang = ({
                 variant="primary"
                 size="sm"
                 className="mr-2"
-                onClick={() => tambah()}
+                onClick={() => kurang()}
               >
-                <FontAwesomeIcon icon={faPlus} />
+                <FontAwesomeIcon icon={faMinus} />
               </Button>
               <strong>{jumlah}</strong>
               <Button
                 variant="primary"
                 size="sm"
                 className="ml-2"
-                onClick={() => kurang()}
+                onClick={() => tambah()}
               >
-                <FontAwesomeIcon icon={faMinus} />
+                <FontAwesomeIcon icon={faPlus} />
               </Button>
             </Form.Group>
 
@@ -77,7 +77,10 @@ const ModalKeranjang = ({
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="danger">
+          <Button
+            variant="danger"
+            onClick={() => hapusPesanan(keranjangDetail.id)}
+          >
             <FontAwesomeIcon icon={faTrash} /> Hapus Pesanan
           </Button>
         </Modal.Footer>
